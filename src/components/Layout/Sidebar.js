@@ -46,13 +46,7 @@ class Sidebar extends React.Component {
   }
 
   async componentDidMount() {
-    const accessToken = localStorage.getItem('token1');
-    const config = {
-      headers: { 
-        'Authorization': 'Bearer ' + accessToken
-      }
-    }
-    const items = (await axios.get('http://localhost:8081/tasks', config)).data
+    const items = (await axios.get('http://localhost:8081/tasks')).data
         .map(function(obj) {
           return {
               to: '/task/'+obj.id,

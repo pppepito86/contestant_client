@@ -29,7 +29,7 @@ class TaskSolutions extends React.Component {
                 {this.props.solutions.map(({id, time, details, points}, index) => (
                   <tr key={index}>
                     <th scope="row">
-                      <Link to={'/task/'+this.props.taskId+'/solution/'+id} activeClassName="active">{id}</Link>
+                      <Link to={'/task/'+this.props.taskId+'/solution/'+id}>{id}</Link>
                     </th>
                     <td>{time}</td>
                     <td>{details}</td>

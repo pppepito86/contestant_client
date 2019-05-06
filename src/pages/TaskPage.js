@@ -26,14 +26,9 @@ class TaskPage extends React.Component {
   }
 
   async fetchTaskDetails() {
-    const accessToken = localStorage.getItem('token1');
-    const config = {
-      headers: { 
-        'Authorization': 'Bearer ' + accessToken
-      }
-    }
-    const task = (await axios.get('http://localhost:8081/tasks/'+this.props.match.params.taskId, config)).data;
-    const solutions = (await axios.get('http://localhost:8081/solutions/'+this.props.match.params.taskId, config)).data;
+    const taskId = this.props.match.params.taskId;
+    const task = (await axios.get('http://localhost:8081/tasks/'+taskId)).data;
+    const solutions = (await axios.get('http://localhost:8081/solutions/'+taskId)).data;
     this.setState({
       task: task,
       solutions: solutions,

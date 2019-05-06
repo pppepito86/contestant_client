@@ -17,21 +17,16 @@ class SolutionPage extends React.Component {
 
     this.state = {
       solution: {},
+      timeout: {},
     }
     this.fetchSolutionDetails = this.fetchSolutionDetails.bind(this);
   }
 
   async fetchSolutionDetails() {
-    const accessToken = localStorage.getItem('token1');
-    const config = {
-      headers: { 
-        'Authorization': 'Bearer ' + accessToken
-      }
-    }
     const taskId = this.props.match.params.taskId;
     const solutionId = this.props.match.params.solutionId;
     const path = '/task/'+taskId+'/solution/'+solutionId;
-    const solution = (await axios.get(path, config)).data;
+    const solution = (await axios.get(path)).data;
     this.setState({
       solution: solution,
     });
@@ -42,6 +37,10 @@ class SolutionPage extends React.Component {
 
   async componentDidMount() {
     this.fetchSolutionDetails();
+  }
+
+  async componentWillUnmount() {
+    
   }
 
   render() {
