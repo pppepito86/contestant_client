@@ -65,17 +65,7 @@ class Sidebar extends React.Component {
     items.push({ to: '/docu', name: 'Документация', exact: false, Icon: MdWeb});
     this.setState({navItems: items});
   }
-
-  handleClick = name => () => {
-    this.setState(prevState => {
-      const isOpen = prevState[`isOpen${name}`];
-
-      return {
-        [`isOpen${name}`]: !isOpen,
-      };
-    });
-  };
-
+  
   render() {
     return (
       <aside className={bem.b()} data-image={sidebarBgImage}>

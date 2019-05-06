@@ -6,7 +6,7 @@ import {
   Col,
   Table
 } from 'reactstrap';
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 
 class SolutionsPage extends React.Component {
 
@@ -28,7 +28,9 @@ class SolutionsPage extends React.Component {
                 <tbody>
                 {this.props.solutions.map(({id, time, details, points}, index) => (
                   <tr key={index}>
-                    <th scope="row">{id}</th>
+                    <th scope="row">
+                      <Link to={'/task/'+this.props.taskId+'/solution/'+id} activeClassName="active">{id}</Link>
+                    </th>
                     <td>{time}</td>
                     <td>{details}</td>
                     <td>{points}</td>

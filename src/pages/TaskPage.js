@@ -95,7 +95,7 @@ class TaskPage extends React.Component {
           </Row>
 
       <Row>
-        <SolutionsPage solutions={this.state.solutions} />
+        <SolutionsPage taskId={this.state.task.id} solutions={this.state.solutions} />
       </Row>
 
       </Page>
