@@ -21,7 +21,7 @@ class TaskPage extends React.Component {
       task: {
         name: "",
       },
-      solution: [],
+      solutions: [],
     }
   }
 
