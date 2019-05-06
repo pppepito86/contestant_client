@@ -51,6 +51,12 @@ class App extends React.Component {
             />
             <LayoutRoute
               exact
+              path="/task/:taskId/solution/:solutionId"
+              layout={MainLayout}
+              component={SolutionPage}
+            />
+            <LayoutRoute
+              exact
               path="/task/:taskId"
               layout={MainLayout}
               component={TaskPage}

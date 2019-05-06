@@ -1,5 +1,6 @@
 import Page from 'components/Page';
 import React from 'react';
+import {withRouter} from 'react-router-dom';
 import {
   Card,
   CardBody,
@@ -7,11 +8,40 @@ import {
   Row,
   Table
 } from 'reactstrap';
+import axios from 'axios';
 
 class SolutionPage extends React.Component {
-  componentDidMount() {
-    // this is needed, because InfiniteCalendar forces window scroll
-    window.scrollTo(0, 0);
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      solution: {},
+    }
+    this.fetchSolutionDetails = this.fetchSolutionDetails.bind(this);
+  }
+
+  async fetchSolutionDetails() {
+    const accessToken = localStorage.getItem('token1');
+    const config = {
+      headers: { 
+        'Authorization': 'Bearer ' + accessToken
+      }
+    }
+    const taskId = this.props.match.params.taskId;
+    const solutionId = this.props.match.params.solutionId;
+    const path = '/task/'+taskId+'/solution/'+solutionId;
+    const solution = (await axios.get(path, config)).data;
+    this.setState({
+      solution: solution,
+    });
+    if (solution.details==='waiting' || solution.details==='judging') {
+      setTimeout(this.fetchSolutionDetails, 1000);
+    }
+  }
+
+  async componentDidMount() {
+    this.fetchSolutionDetails();
   }
 
   render() {
@@ -37,11 +67,11 @@ class SolutionPage extends React.Component {
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">23.04.19 12:01:49	</th>
-                    <td>Z</td>
-                    <td>cookies</td>
-                    <td>?</td>
-                    <td>WA,WA,WA,WA,WA,?,?,?,?,?	</td>
+                    <th scope="row">{this.state.solution.time}</th>
+                    <td>{this.state.solution.group}</td>
+                    <td>{this.state.solution.taskName}</td>
+                    <td>{this.state.solution.points}</td>
+                    <td>{this.state.solution.details}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -57,21 +87,13 @@ class SolutionPage extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">Тест 1</th>
-                    <td>WA</td>
-                    <td>0.0</td>
+                  {this.state.solution.steps && this.state.solution.steps.map(({step, verdict, time}, index) => (
+                  <tr key={index}>
+                    <th scope="row">{step}</th>
+                    <td>{verdict}</td>
+                    <td>{time}</td>
                   </tr>
-                  <tr>
-                    <th scope="row">Тест 2</th>
-                    <td>WA</td>
-                    <td>0.0</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Тест 3</th>
-                    <td>HIDDEN</td>
-                    <td>0.0</td>
-                  </tr>
+                  ))}
                 </tbody>
               </Table>
             </CardBody>
@@ -85,4 +107,4 @@ class SolutionPage extends React.Component {
     );
   }
 }
-export default SolutionPage;
+export default withRouter(SolutionPage);
