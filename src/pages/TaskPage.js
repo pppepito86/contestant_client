@@ -10,7 +10,7 @@ import {
 import {withRouter} from 'react-router-dom';
 import SubmitSolution from '../components/SubmitSolution';
 import axios from 'axios';
-import SolutionsPage from './SolutionsPage';
+import TaskSolutions from '../components/TaskSolutions';
 
 class TaskPage extends React.Component {
 
@@ -95,7 +95,7 @@ class TaskPage extends React.Component {
           </Row>
 
       <Row>
-        <SolutionsPage taskId={this.state.task.id} solutions={this.state.solutions} />
+        <TaskSolutions taskId={this.state.task.id} solutions={this.state.solutions} />
       </Row>
 
       </Page>

@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 import {Link, withRouter} from 'react-router-dom';
 
-class SolutionsPage extends React.Component {
+class TaskSolutions extends React.Component {
 
   render() {
     return (
@@ -45,4 +45,4 @@ class SolutionsPage extends React.Component {
   }
 }
 
-export default withRouter(SolutionsPage);
+export default withRouter(TaskSolutions);
