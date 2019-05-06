@@ -17,53 +17,43 @@ class TaskPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.taskId = this.taskId.bind(this);
     this.state = {
-      tasks: [],
-      solutions: [],
+      task: {
+        name: "",
+      },
+      solution: [],
     }
   }
 
-  async componentDidMount() {
+  async fetchTaskDetails() {
     const accessToken = localStorage.getItem('token1');
     const config = {
       headers: { 
         'Authorization': 'Bearer ' + accessToken
       }
     }
-    const tasks = (await axios.get('http://localhost:8081/tasks', config)).data;
-    const solutions = (await axios.get('http://localhost:8081/solutions', config)).data;
+    const task = (await axios.get('http://localhost:8081/tasks/'+this.props.match.params.taskId, config)).data;
+    const solutions = (await axios.get('http://localhost:8081/solutions/'+this.props.match.params.taskId, config)).data;
     this.setState({
-      tasks: tasks,
+      task: task,
       solutions: solutions,
     });
   }
-  
-  componentWillReceiveProps(props) {
-    //alert(JSON.stringify(props));
+  async componentDidMount() {
+    this.fetchTaskDetails();
   }
 
-  taskId() {
-    return this.props.match.params.taskId;
-  }
-
-  task(property) {
-    var taskId = parseInt(this.taskId());
-    var task = this.state.tasks[taskId-1];
-    return task === undefined ? "":JSON.parse(JSON.stringify(task))[property];
-  }
-
-  solutions() {
-    var taskId = parseInt(this.taskId());
-    alert(taskId);
-    return this.state.solutions[taskId-1];
+  async componentDidUpdate(prevProps) {
+    if (prevProps.match.params.taskId !== this.props.match.params.taskId) {
+      this.fetchTaskDetails();
+    }
   }
 
   render() {
     return (
       <Page
         className="ContestPage"
-        title={'Задача ' + this.taskId() + " - " + this.task('name')}
+        title={'Задача ' + this.state.task.id + " - " + this.state.task.name}
       >
 
         <Row>
@@ -87,11 +77,11 @@ class TaskPage extends React.Component {
 		                <tbody>
 		                <tr>
 		                  <td>Време</td>
-		                  <td>{this.task('time')}</td>
+		                  <td>{this.state.task.time}</td>
 		                </tr>
 		                <tr>
 		                  <td>Памет</td>
-		                  <td>{this.task('memory')}</td>
+		                  <td>{this.state.task.memory}</td>
 		                </tr>
 		              </tbody>
 		            </table>
@@ -105,7 +95,7 @@ class TaskPage extends React.Component {
           </Row>
 
       <Row>
-        <SolutionsPage taskId={this.taskId} solutions={this.state.solutions} />
+        <SolutionsPage solutions={this.state.solutions} />
       </Row>
 
       </Page>
