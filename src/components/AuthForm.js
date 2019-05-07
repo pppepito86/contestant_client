@@ -22,7 +22,7 @@ class AuthForm extends React.Component {
         'Content-Type': 'application/x-www-form-urlencoded' 
       }
     }
-    axios.post("http://52.59.81.222:8081/oauth/token", data, config)
+    axios.post("/oauth/token", data, config)
     .then(response => {
         console.log(response);
         localStorage.setItem('token', response);

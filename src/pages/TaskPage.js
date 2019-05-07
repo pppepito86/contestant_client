@@ -30,8 +30,8 @@ class TaskPage extends React.Component {
 
   async fetchTaskDetails() {
     const taskId = this.props.match.params.taskId;
-    const task = (await axios.get('http://52.59.81.222:8081/tasks/'+taskId)).data;
-    const solutions = (await axios.get('http://52.59.81.222:8081/tasks/'+taskId+'/solutions')).data;
+    const task = (await axios.get('/tasks/'+taskId)).data;
+    const solutions = (await axios.get('/tasks/'+taskId+'/solutions')).data;
     this.setState({
       task: task,
       solutions: solutions,
@@ -50,7 +50,7 @@ class TaskPage extends React.Component {
   download(e) {
     e.preventDefault();
     axios
-    .get(`http://52.59.81.222:8081/tasks/1/pdf`, {
+    .get(`/tasks/1/pdf`, {
       responseType: 'arraybuffer'
     })
     .then(response => {
@@ -61,8 +61,8 @@ class TaskPage extends React.Component {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        //link.setAttribute('download', this.state.task.name+'.pdf');
-        link.target= '_blank';
+        link.setAttribute('download', this.state.task.name+'.pdf');
+        //link.target= '_blank';
         document.body.appendChild(link);
         link.click();
       }else{
@@ -87,7 +87,7 @@ class TaskPage extends React.Component {
               </CardHeader>
               <CardBody>
                 <Link to={"/tasks/"+this.state.task.number+"/pdf"} onClick={(e)=>this.download(e)} className="btn btn-info">Отвори</Link>
-                <a href={"http://52.59.81.222:8081/tasks/"+this.state.task.number+"/pdf"} target="_blank" className="btn btn-info">Отвори</a>
+                <a href={"/tasks/"+this.state.task.number+"/pdf"} target="_blank" className="btn btn-info">Отвори</a>
                 <a href={"/tasks/"+this.state.task.number+"/pdf"} target="_blank" className="btn btn-info">Изтегли</a>
 	            </CardBody>
             </Card>

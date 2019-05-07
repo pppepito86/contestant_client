@@ -25,7 +25,7 @@ class SolutionPage extends React.Component {
   async fetchSolutionDetails() {
     const taskId = this.props.match.params.taskId;
     const solutionId = this.props.match.params.solutionId;
-    const path = 'http://52.59.81.222:8081/tasks/'+taskId+'/solutions/'+solutionId;
+    const path = '/tasks/'+taskId+'/solutions/'+solutionId;
     const solution = (await axios.get(path)).data;
     this.setState({
       solution: solution,

@@ -46,7 +46,7 @@ class Sidebar extends React.Component {
   }
 
   async componentDidMount() {
-    const items = (await axios.get('http://52.59.81.222:8081/tasks')).data
+    const items = (await axios.get('/tasks')).data
         .map(function(obj) {
           return {
               to: '/task/'+obj.number,

@@ -64,7 +64,7 @@ class Header extends React.Component {
         'Authorization': 'Bearer ' + accessToken
       }
     }
-    const me = (await axios.get('http://52.59.81.222:8081/me', config)).data;
+    const me = (await axios.get('/me', config)).data;
     this.setState(me);
   }
 
