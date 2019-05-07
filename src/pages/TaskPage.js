@@ -47,29 +47,41 @@ class TaskPage extends React.Component {
     }
   }
 
-  download(e) {
-    e.preventDefault();
-    axios
-    .get(`/tasks/1/pdf`, {
-      responseType: 'arraybuffer'
-    })
-    .then(response => {
-      console.log(response)
+  openPdfInNewTab(pdf) {
+    let newWindow = window.open('/tasks/'+this.state.task.number+'/pdf');
+    if (newWindow.document.readyState === 'complete') {
+      newWindow.location = URL.createObjectURL(pdf);
+    } else {
+      newWindow.onload = () => {
+        newWindow.location = URL.createObjectURL(pdf);
+      };
+    }
+  }
 
-      if (!window.navigator.msSaveOrOpenBlob){
-        // BLOB NAVIGATOR
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', this.state.task.name+'.pdf');
-        //link.target= '_blank';
-        document.body.appendChild(link);
-        link.click();
-      }else{
-        // BLOB FOR EXPLORER 11
-        const url = window.navigator.msSaveOrOpenBlob(new Blob([response.data]),"download.pdf");
-      }
-    })
+  downloadPdf(pdf) {
+    const pdfName = this.state.task.name+'.pdf';
+    if (!window.navigator.msSaveOrOpenBlob){
+      // BLOB NAVIGATOR
+      const url = window.URL.createObjectURL(pdf);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', pdfName);
+      //document.body.appendChild(link);
+      link.click();
+    } else {
+      // BLOB FOR EXPLORER 11
+      const url = window.navigator.msSaveOrOpenBlob(pdf, pdfName);
+    }
+  }
+
+  async showPdf(e, open) {
+    e.preventDefault();
+    const data = (await axios.get("/tasks/"+this.state.task.number+"/pdf", {
+      responseType: 'arraybuffer'
+    })).data;
+   
+    if (open) this.openPdfInNewTab(new Blob([data],{type: 'application/pdf'}));
+    else this.downloadPdf(new Blob([data],{type: 'application/pdf'}));
   }
 
   render() {
@@ -86,9 +98,8 @@ class TaskPage extends React.Component {
                 Условие
               </CardHeader>
               <CardBody>
-                <Link to={"/tasks/"+this.state.task.number+"/pdf"} onClick={(e)=>this.download(e)} className="btn btn-info">Отвори</Link>
-                <a href={"/tasks/"+this.state.task.number+"/pdf"} target="_blank" className="btn btn-info">Отвори</a>
-                <a href={"/tasks/"+this.state.task.number+"/pdf"} target="_blank" className="btn btn-info">Изтегли</a>
+                <Link to={"/tasks/"+this.state.task.number+"/pdf"} onClick={(e)=>this.showPdf(e, true)} className="btn btn-info">Отвори</Link>
+                <Link to={"/tasks/"+this.state.task.number+"/pdf"} onClick={(e)=>this.showPdf(e, false)} className="btn btn-info">Изтегли</Link>
 	            </CardBody>
             </Card>
 
