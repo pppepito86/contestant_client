@@ -1,6 +1,5 @@
 import { EmptyLayout, LayoutRoute, MainLayout } from 'components/Layout';
 import AuthPage from 'pages/AuthPage';
-// pages
 import TaskPage from 'pages/TaskPage';
 import SolutionPage from 'pages/SolutionPage';
 import DashboardPage from 'pages/DashboardPage';
@@ -24,9 +23,7 @@ class App extends React.Component {
               exact
               path="/login"
               layout={EmptyLayout}
-              component={props => (
-                <AuthPage/>
-              )}
+              component={AuthPage}
             />
             <LayoutRoute
               exact
@@ -48,13 +45,7 @@ class App extends React.Component {
             />
             <LayoutRoute
               exact
-              path="/solution"
-              layout={MainLayout}
-              component={SolutionPage}
-            />
-            <LayoutRoute
-              exact
-              path="/dash"
+              path="/dashboard"
               layout={MainLayout}
               component={DashboardPage}
             />

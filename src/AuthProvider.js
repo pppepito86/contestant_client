@@ -4,6 +4,8 @@ import axios from 'axios';
 class AuthProvider extends React.Component {
 
   componentWillMount() {
+    //axios.defaults.baseURL = 'http://52.59.81.222:8081/';
+
     axios.interceptors.request.use(function (config) {
       const token = localStorage.getItem('token1');
       if (!config.headers.Authorization && token) {

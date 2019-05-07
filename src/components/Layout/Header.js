@@ -64,11 +64,8 @@ class Header extends React.Component {
         'Authorization': 'Bearer ' + accessToken
       }
     }
-    const me = (await axios.get('http://localhost:8081/me', config)).data;
-    this.setState({
-      name: me['name'],
-      group: me['group'],
-    });
+    const me = (await axios.get('http://52.59.81.222:8081/me', config)).data;
+    this.setState(me);
   }
 
   logout() {
@@ -110,7 +107,7 @@ class Header extends React.Component {
           </Button>
         </Nav>
         <Nav navbar>
-        <span>{this.state.name}, {this.state.group} група</span>
+        <span>{this.state.name} - {this.state.display_name}, {this.state.contest} група</span>
         </Nav>
 
         <Nav navbar className={bem.e('nav-right')}>

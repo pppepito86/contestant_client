@@ -26,13 +26,13 @@ class TaskSolutions extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                {this.props.solutions.map(({id, time, details, points}, index) => (
+                {this.props.solutions.map(({number, upload_time, verdict, points}, index) => (
                   <tr key={index}>
                     <th scope="row">
-                      <Link to={'/task/'+this.props.taskId+'/solution/'+id}>{id}</Link>
+                      <Link to={'/task/'+this.props.taskId+'/solution/'+number}>{number}</Link>
                     </th>
-                    <td>{time}</td>
-                    <td>{details}</td>
+                    <td>{upload_time}</td>
+                    <td>{verdict}</td>
                     <td>{points}</td>
                   </tr>
                 ))}

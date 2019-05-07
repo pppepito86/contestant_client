@@ -53,5 +53,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://localhost:8081"
+  "proxy": "http://52.59.81.222:8081/"
 }

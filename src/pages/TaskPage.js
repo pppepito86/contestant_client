@@ -7,7 +7,7 @@ import {
   Col,
   Row,
 } from 'reactstrap';
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import SubmitSolution from '../components/SubmitSolution';
 import axios from 'axios';
 import TaskSolutions from '../components/TaskSolutions';
@@ -19,7 +19,10 @@ class TaskPage extends React.Component {
 
     this.state = {
       task: {
-        name: "",
+        number: null,
+        name: null,
+        time: null,
+        memory: null,
       },
       solutions: [],
     }
@@ -27,8 +30,8 @@ class TaskPage extends React.Component {
 
   async fetchTaskDetails() {
     const taskId = this.props.match.params.taskId;
-    const task = (await axios.get('http://localhost:8081/tasks/'+taskId)).data;
-    const solutions = (await axios.get('http://localhost:8081/solutions/'+taskId)).data;
+    const task = (await axios.get('http://52.59.81.222:8081/tasks/'+taskId)).data;
+    const solutions = (await axios.get('http://52.59.81.222:8081/tasks/'+taskId+'/solutions')).data;
     this.setState({
       task: task,
       solutions: solutions,
@@ -44,11 +47,36 @@ class TaskPage extends React.Component {
     }
   }
 
+  download(e) {
+    e.preventDefault();
+    axios
+    .get(`http://52.59.81.222:8081/tasks/1/pdf`, {
+      responseType: 'arraybuffer'
+    })
+    .then(response => {
+      console.log(response)
+
+      if (!window.navigator.msSaveOrOpenBlob){
+        // BLOB NAVIGATOR
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        //link.setAttribute('download', this.state.task.name+'.pdf');
+        link.target= '_blank';
+        document.body.appendChild(link);
+        link.click();
+      }else{
+        // BLOB FOR EXPLORER 11
+        const url = window.navigator.msSaveOrOpenBlob(new Blob([response.data]),"download.pdf");
+      }
+    })
+  }
+
   render() {
     return (
       <Page
         className="ContestPage"
-        title={'Задача ' + this.state.task.id + " - " + this.state.task.name}
+        title={"Задача " + this.state.task.number + " - " + this.state.task.name}
       >
 
         <Row>
@@ -58,8 +86,9 @@ class TaskPage extends React.Component {
                 Условие
               </CardHeader>
               <CardBody>
-                <a href="/"  target="_blank" className="btn btn-info">Отвори</a>
-                <a href="/" target="_blank" className="btn btn-info">Изтегли</a>
+                <Link to={"/tasks/"+this.state.task.number+"/pdf"} onClick={(e)=>this.download(e)} className="btn btn-info">Отвори</Link>
+                <a href={"http://52.59.81.222:8081/tasks/"+this.state.task.number+"/pdf"} target="_blank" className="btn btn-info">Отвори</a>
+                <a href={"/tasks/"+this.state.task.number+"/pdf"} target="_blank" className="btn btn-info">Изтегли</a>
 	            </CardBody>
             </Card>
 
@@ -90,11 +119,12 @@ class TaskPage extends React.Component {
           </Row>
 
       <Row>
-        <TaskSolutions taskId={this.state.task.id} solutions={this.state.solutions} />
+        <TaskSolutions taskId={this.props.match.params.taskId} solutions={this.state.solutions} />
       </Row>
 
       </Page>
     );
   }
 }
+
 export default withRouter(TaskPage);

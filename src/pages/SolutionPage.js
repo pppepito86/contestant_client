@@ -17,7 +17,7 @@ class SolutionPage extends React.Component {
 
     this.state = {
       solution: {},
-      timeout: {},
+      timeout: null,
     }
     this.fetchSolutionDetails = this.fetchSolutionDetails.bind(this);
   }
@@ -25,13 +25,15 @@ class SolutionPage extends React.Component {
   async fetchSolutionDetails() {
     const taskId = this.props.match.params.taskId;
     const solutionId = this.props.match.params.solutionId;
-    const path = '/task/'+taskId+'/solution/'+solutionId;
+    const path = 'http://52.59.81.222:8081/tasks/'+taskId+'/solutions/'+solutionId;
     const solution = (await axios.get(path)).data;
     this.setState({
       solution: solution,
     });
-    if (solution.details==='waiting' || solution.details==='judging') {
-      setTimeout(this.fetchSolutionDetails, 1000);
+    if (solution.verdict==='waiting' || solution.verdict==='judging') {
+      this.setState({
+        timeout: setTimeout(this.fetchSolutionDetails, 1000),
+      });
     }
   }
 
@@ -40,7 +42,7 @@ class SolutionPage extends React.Component {
   }
 
   async componentWillUnmount() {
-    
+    clearTimeout(this.state.timeout);
   }
 
   render() {
@@ -57,6 +59,7 @@ class SolutionPage extends React.Component {
               <Table responsive>
                 <thead>
                   <tr>
+                    <th>#</th>
                     <th>Час</th>
                     <th>Група</th>
                     <th>Задача</th>
@@ -66,11 +69,12 @@ class SolutionPage extends React.Component {
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">{this.state.solution.time}</th>
-                    <td>{this.state.solution.group}</td>
-                    <td>{this.state.solution.taskName}</td>
+                    <th scope="row">{this.state.solution.number}</th>
+                    <td>{this.state.solution.upload_time}</td>
+                    <td>{this.state.solution.contest}</td>
+                    <td>{this.state.solution.name}</td>
                     <td>{this.state.solution.points}</td>
-                    <td>{this.state.solution.details}</td>
+                    <td>{this.state.solution.verdict}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -86,9 +90,9 @@ class SolutionPage extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.solution.steps && this.state.solution.steps.map(({step, verdict, time}, index) => (
+                  {this.state.solution.tests && this.state.solution.tests.map(({name, verdict, time}, index) => (
                   <tr key={index}>
-                    <th scope="row">{step}</th>
+                    <th scope="row">{name}</th>
                     <td>{verdict}</td>
                     <td>{time}</td>
                   </tr>
