@@ -15,18 +15,14 @@ import {openPdfInNewTab, downloadPdf} from '../pdfUtil.js';
 
 class TaskPage extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      task: {
-        number: null,
-        name: null,
-        time: null,
-        memory: null,
-      },
-      solutions: [],
-    }
+  state = {
+    task: {
+      number: "",
+      name: "",
+      time: "",
+      memory: "",
+    },
+    solutions: [],
   }
 
   async fetchTaskDetails() {
@@ -51,11 +47,11 @@ class TaskPage extends React.Component {
   async showPdf(e, open) {
     e.preventDefault();
 
-    const data = (await axios.get("/tasks/"+this.state.task.number+"/pdf", {
+    const {name, number} = this.state.task;
+    const data = (await axios.get(`/tasks/${number}/pdf`, {
       responseType: 'arraybuffer'
     })).data;
     const pdf = new Blob([data],{type: 'application/pdf'});
-    const {name, number} = this.state.task;
 
     if (open) openPdfInNewTab(pdf, number);
     else downloadPdf(pdf, name);
@@ -63,11 +59,11 @@ class TaskPage extends React.Component {
 
   render() {
       const {task: {name, number, time, memory}, solutions} = this.state;
-      const { taskId } = this.props.match.params;
+      const {taskId} = this.props.match.params;
     return (
       <Page
         className="ContestPage"
-        title={"Задача " + number + " - " + name}
+        title={`Задача ${taskId} - ${name}`}
       >
 
         <Row>

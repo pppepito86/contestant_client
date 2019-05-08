@@ -1,5 +1,5 @@
 export function openPdfInNewTab(pdf, number) {
-    const newWindow = window.open('/tasks/'+number+'/pdf');
+    const newWindow = window.open(`/tasks/${number}/pdf`);
     if (newWindow.document.readyState === 'complete') {
         newWindow.location = URL.createObjectURL(pdf);
     } else {
@@ -10,7 +10,7 @@ export function openPdfInNewTab(pdf, number) {
 }
 
 export function downloadPdf(pdf, name) {
-    const pdfName = name+'.pdf';
+    const pdfName = `${name}.pdf`;
     if (!window.navigator.msSaveOrOpenBlob){
         // BLOB NAVIGATOR
         const url = window.URL.createObjectURL(pdf);

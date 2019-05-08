@@ -91,8 +91,11 @@ class SolutionPage extends React.Component {
                 </tbody>
               </Table>
             </CardBody>
-
-
+          </Card>
+          <Card>
+            <CardBody>
+              <pre>{this.state.solution.source}</pre>
+            </CardBody>
           </Card>
         </Col>
       </Row>

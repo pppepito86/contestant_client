@@ -26,7 +26,7 @@ const TaskSolutions = ({solutions, taskId}) => (
           {solutions.map(({number, upload_time, verdict, points}, index) => (
             <tr key={index}>
               <th scope="row">
-                <Link to={'/task/'+taskId+'/solution/'+number}>{number}</Link>
+                <Link to={`/task/${taskId}/solution/${number}`}>{number}</Link>
               </th>
               <td>{upload_time}</td>
               <td>{verdict}</td>

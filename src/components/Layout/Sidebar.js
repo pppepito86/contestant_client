@@ -16,6 +16,7 @@ import {
 } from 'reactstrap';
 import bn from 'utils/bemnames';
 import axios from 'axios';
+import Countdown from 'react-countdown-now';
 
 const sidebarBackground = {
   backgroundImage: `url("${sidebarBgImage}")`,
@@ -31,15 +32,14 @@ class Sidebar extends React.Component {
       isOpenComponents: true,
       isOpenContents: true,
       isOpenPages: true,
-      navItems: [
-      ],
+      navItems: [],
     };
 
   async componentDidMount() {
     const items = (await axios.get('/tasks')).data
         .map(function(obj) {
           return {
-              to: '/task/'+obj.number,
+              to: `/task/${obj.number}`,
               name: obj.name,
               exact: false,
               Icon: MdWidgets,
@@ -52,8 +52,17 @@ class Sidebar extends React.Component {
   
   render() {
     const { taskId } = this.props.match.params;
+    const renderer = ({ hours, minutes, seconds, completed }) => {
+      if (completed) {
+        // Render a completed state
+        return <span>Completed</span>;
+      } else {
+        // Render a countdown
+        return <span>{hours}:{minutes}{minutes}:{seconds}{seconds}</span>;
+      }
+    };
 
-      return (
+    return (
       <aside className={bem.b()} data-image={sidebarBgImage}>
         <div className={bem.e('background')} style={sidebarBackground} />
         <div className={bem.e('content')}>
@@ -81,8 +90,16 @@ class Sidebar extends React.Component {
                 </BSNavLink>
               </NavItem>
             ))}
-
           </Nav>
+          <div class="d-flex justify-content-center">
+            <Countdown date={Date.now() + 3000} daysInHours="true">
+              <span>
+              <Countdown date={Date.now() + 6000}>
+                <span>Състезанието приключи</span>
+              </Countdown>
+              </span>
+            </Countdown>
+          </div>
         </div>
       </aside>
     );
