@@ -18,9 +18,9 @@ class SubmitSolution extends Component {
   }
 
   handleClick(value) {
-    this.setState(state => ({
+    this.setState({
       showFile: value
-    }));
+    });
   }
 
   render() {

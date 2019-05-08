@@ -27,23 +27,13 @@ const bem = bn.create('sidebar');
 
 class Sidebar extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
+  state = {
       isOpenComponents: true,
       isOpenContents: true,
       isOpenPages: true,
       navItems: [
       ],
     };
-
-    this.taskId = this.taskId.bind(this);
-  }
-
-  taskId() {
-    return this.props.match.params.taskId;
-  }
 
   async componentDidMount() {
     const items = (await axios.get('/tasks')).data
@@ -61,7 +51,9 @@ class Sidebar extends React.Component {
   }
   
   render() {
-    return (
+    const { taskId } = this.props.match.params;
+
+      return (
       <aside className={bem.b()} data-image={sidebarBgImage}>
         <div className={bem.e('background')} style={sidebarBackground} />
         <div className={bem.e('content')}>
@@ -81,7 +73,7 @@ class Sidebar extends React.Component {
                   tag={NavLink}
                   to={to}
                   activeClassName="active"
-                  active={to==='/task/'+this.taskId()}
+                  active={to===`/task/${taskId}`}
                   exact
                 >
                   <Icon className={bem.e('nav-item-icon')} />

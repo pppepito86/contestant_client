@@ -11,6 +11,7 @@ import {Link, withRouter} from 'react-router-dom';
 import SubmitSolution from '../components/SubmitSolution';
 import axios from 'axios';
 import TaskSolutions from '../components/TaskSolutions';
+import {openPdfInNewTab, downloadPdf} from '../pdfUtil.js';
 
 class TaskPage extends React.Component {
 
@@ -31,10 +32,10 @@ class TaskPage extends React.Component {
   async fetchTaskDetails() {
     const taskId = this.props.match.params.taskId;
     const task = (await axios.get('/tasks/'+taskId)).data;
-    const solutions = (await axios.get('/tasks/'+taskId+'/solutions')).data;
+    const solutions = (await axios.get(`/tasks/${taskId}/solutions`)).data;
     this.setState({
-      task: task,
-      solutions: solutions,
+      task,
+      solutions,
     });
   }
   async componentDidMount() {
@@ -47,48 +48,26 @@ class TaskPage extends React.Component {
     }
   }
 
-  openPdfInNewTab(pdf) {
-    let newWindow = window.open('/tasks/'+this.state.task.number+'/pdf');
-    if (newWindow.document.readyState === 'complete') {
-      newWindow.location = URL.createObjectURL(pdf);
-    } else {
-      newWindow.onload = () => {
-        newWindow.location = URL.createObjectURL(pdf);
-      };
-    }
-  }
-
-  downloadPdf(pdf) {
-    const pdfName = this.state.task.name+'.pdf';
-    if (!window.navigator.msSaveOrOpenBlob){
-      // BLOB NAVIGATOR
-      const url = window.URL.createObjectURL(pdf);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', pdfName);
-      //document.body.appendChild(link);
-      link.click();
-    } else {
-      // BLOB FOR EXPLORER 11
-      const url = window.navigator.msSaveOrOpenBlob(pdf, pdfName);
-    }
-  }
-
   async showPdf(e, open) {
     e.preventDefault();
+
     const data = (await axios.get("/tasks/"+this.state.task.number+"/pdf", {
       responseType: 'arraybuffer'
     })).data;
-   
-    if (open) this.openPdfInNewTab(new Blob([data],{type: 'application/pdf'}));
-    else this.downloadPdf(new Blob([data],{type: 'application/pdf'}));
+    const pdf = new Blob([data],{type: 'application/pdf'});
+    const {name, number} = this.state.task;
+
+    if (open) openPdfInNewTab(pdf, number);
+    else downloadPdf(pdf, name);
   }
 
   render() {
+      const {task: {name, number, time, memory}, solutions} = this.state;
+      const { taskId } = this.props.match.params;
     return (
       <Page
         className="ContestPage"
-        title={"Задача " + this.state.task.number + " - " + this.state.task.name}
+        title={"Задача " + number + " - " + name}
       >
 
         <Row>
@@ -98,30 +77,12 @@ class TaskPage extends React.Component {
                 Условие
               </CardHeader>
               <CardBody>
-                <Link to={"/tasks/"+this.state.task.number+"/pdf"} onClick={(e)=>this.showPdf(e, true)} className="btn btn-info">Отвори</Link>
-                <Link to={"/tasks/"+this.state.task.number+"/pdf"} onClick={(e)=>this.showPdf(e, false)} className="btn btn-info">Изтегли</Link>
+                <Link to={`/tasks/${number}/pdf`} onClick={e => this.showPdf(e, true)} className="btn btn-info">Отвори</Link>
+                <Link to={`/tasks/${number}/pdf`} onClick={e => this.showPdf(e, false)} className="btn btn-info">Изтегли</Link>
 	            </CardBody>
             </Card>
 
-            <Card>
-              <CardHeader>
-                Ограничения
-              </CardHeader>
-              <CardBody>
-              <table className="table table-bordered">
-		                <tbody>
-		                <tr>
-		                  <td>Време</td>
-		                  <td>{this.state.task.time}</td>
-		                </tr>
-		                <tr>
-		                  <td>Памет</td>
-		                  <td>{this.state.task.memory}</td>
-		                </tr>
-		              </tbody>
-		            </table>
-              </CardBody>
-            </Card>
+            <LimitsCard time={time} memory={memory}/>
             </Col>
 
             <Col md="6" sm="12" xs="12">
@@ -130,12 +91,33 @@ class TaskPage extends React.Component {
           </Row>
 
       <Row>
-        <TaskSolutions taskId={this.props.match.params.taskId} solutions={this.state.solutions} />
+        <TaskSolutions taskId={taskId} solutions={solutions} />
       </Row>
 
       </Page>
     );
   }
 }
+
+const LimitsCard = ({memory, time}) =>
+<Card>
+    <CardHeader>
+    Ограничения
+    </CardHeader>
+    <CardBody>
+<table className="table table-bordered">
+    <tbody>
+    <tr>
+    <td>Време</td>
+    <td>{time}</td>
+    </tr>
+    <tr>
+    <td>Памет</td>
+    <td>{memory}</td>
+    </tr>
+    </tbody>
+    </table>
+    </CardBody>
+    </Card>;
 
 export default withRouter(TaskPage);

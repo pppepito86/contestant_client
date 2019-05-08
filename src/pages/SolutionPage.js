@@ -11,38 +11,29 @@ import {
 import axios from 'axios';
 
 class SolutionPage extends React.Component {
+  static displayName = 'SolutionPage';
 
-  constructor(props) {
-    super(props);
+  state = {
+      solution: {}
+  };
 
-    this.state = {
-      solution: {},
-      timeout: null,
-    }
-    this.fetchSolutionDetails = this.fetchSolutionDetails.bind(this);
-  }
-
-  async fetchSolutionDetails() {
+  fetchSolutionDetails = async () => {
     const taskId = this.props.match.params.taskId;
     const solutionId = this.props.match.params.solutionId;
     const path = '/tasks/'+taskId+'/solutions/'+solutionId;
     const solution = (await axios.get(path)).data;
-    this.setState({
-      solution: solution,
-    });
+    this.setState({solution});
     if (solution.verdict==='waiting' || solution.verdict==='judging') {
-      this.setState({
-        timeout: setTimeout(this.fetchSolutionDetails, 1000),
-      });
+      this.timeout = setTimeout(this.fetchSolutionDetails, 1000);
     }
-  }
+  };
 
   async componentDidMount() {
     this.fetchSolutionDetails();
   }
 
   async componentWillUnmount() {
-    clearTimeout(this.state.timeout);
+    clearTimeout(this.timeout);
   }
 
   render() {

@@ -6,11 +6,12 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
 class AuthForm extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+    static propTypes = {
+        usernameLabel: PropTypes.string,
+        usernameInputProps: PropTypes.object,
+        passwordLabel: PropTypes.string,
+        passwordInputProps: PropTypes.object,
+    };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -79,13 +80,6 @@ class AuthForm extends React.Component {
     );
   }
 }
-
-AuthForm.propTypes = {
-  usernameLabel: PropTypes.string,
-  usernameInputProps: PropTypes.object,
-  passwordLabel: PropTypes.string,
-  passwordInputProps: PropTypes.object,
-};
 
 AuthForm.defaultProps = {
   usernameLabel: 'Потребителско име',
