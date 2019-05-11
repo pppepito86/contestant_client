@@ -33,7 +33,8 @@ class Sidebar extends React.Component {
       isOpenContents: true,
       isOpenPages: true,
       navItems: [],
-      times: {},
+      startTime: "",
+      endTime: "",
     };
 
   async componentDidMount() {
@@ -48,8 +49,13 @@ class Sidebar extends React.Component {
       });
     items.unshift({ to: '/', name: 'dashboard', exact: true, Icon: MdDashboard});
     items.push({ to: '/docu', name: 'Документация', exact: false, Icon: MdWeb});
+    const currentTime = Date.now();
     const times = (await axios.get('/time')).data;
-    this.setState({navItems: items, times});
+    this.setState({
+      navItems: items, 
+      startTime: currentTime + times.timeTillStart,
+      endTime: currentTime + times.timeTillEnd,
+    });
   }
   
   render() {
@@ -64,8 +70,8 @@ class Sidebar extends React.Component {
       }
     };
 
-    const timeTillStart=this.state.times.timeTillStart;
-    const timeTillEnd=this.state.times.timeTillEnd;
+    const startTime=this.state.startTime;
+    const endTime=this.state.endTime;
     return (
       <aside className={bem.b()} data-image={sidebarBgImage}>
         <div className={bem.e('background')} style={sidebarBackground} />
@@ -96,9 +102,9 @@ class Sidebar extends React.Component {
             ))}
           </Nav>
           <div class="d-flex justify-content-center">
-            <Countdown date={Date.now() + timeTillStart} daysInHours="true">
+            <Countdown date={startTime} daysInHours="true">
               <span>
-              <Countdown date={Date.now() + timeTillEnd} daysInHours="true">
+              <Countdown date={endTime} daysInHours="true">
                 <span>Състезанието приключи</span>
               </Countdown>
               </span>
