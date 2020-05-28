@@ -1,14 +1,14 @@
 # contestant_client
-Run powershell with administrator privileges(type powershell in search and press ctrl+shift+enter). Download the script with the following command:
+Пуснете powershell с администраторски права (въведете powershell в windows търсачката и натиснете ctrl+shift+enter или десен бутон `run as administrator`). След това свалете извикайте следната команда, за да свалите скрипта, който ще конфугирира системата:
 
 ```
 PS C:\WINDOWS\system32> powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/pppepito86/contestant_client/master/scripts/block_internet.cmd', 'block_internet.cmd') }"
 ```
-To prepare the system for the contest execute the following line and make sure you keep this file -> C:\rules.wfw:
+За да подготвите системата за състезанието изпълнете следната команда. След това запазете файла C:\rules.wfw.
 ```
 PS C:\WINDOWS\system32> block_internet.cmd block
 ```
-To revert the original state 
+Проверете дали запазания файл rules.wfw се намира в C:\rules.wfw. За да върнете оригиналното състояние на системата: 
 ```
 PS C:\WINDOWS\system32> block_internet.cmd unblock
 ```
