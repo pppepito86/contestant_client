@@ -1,5 +1,6 @@
 # ПРЕДИ СЪСТЕЗАНИЕТО
 Пуснете конзала с администраторски права. Натиснете `start` бутона и в търсачката напишете `cmd`. Отидете на `Command Prompt` дайте десен бутон `run as administrator`, както е показано на картинката.
+<a href="http://www.google.com" target="blank">google</a>
 
 ![Cmd1](https://github.com/pppepito86/contestant_client/raw/master/scripts/cmd1.png)
 
