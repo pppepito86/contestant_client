@@ -11,14 +11,14 @@
 ```
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/pppepito86/contestant_client/master/scripts/block_internet.cmd', 'block_internet.cmd') }"
 ```
-За да подготвите системата за състезанието изпълнете следната команда. След това запазете файла C:\rules.wfw.
+За да подготвите системата за състезанието изпълнете следната команда.
 ```
 block_internet.cmd block
 ```
 След изпълнението на командата системата трябва да е готова за състезанието. Проверете, че няма достъп до интернет, например [https://google.com](https://google.com) не трябва да е достъпен. Трябва да има достъп само до един сайт - [https://pesho.org](https://pesho.org).
 
 # СЛЕД СЪСТЕЗАНИЕТО
-Проверете дали запазания файл rules.wfw се намира в C:\rules.wfw. За да върнете оригиналното състояние на системата: 
+За да върнете оригиналното състояние на системата отворете конзолата и изпълнете следната команда: 
 ```
 block_internet.cmd unblock
 ```
