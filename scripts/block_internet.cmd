@@ -14,6 +14,7 @@ if "%1"=="block" (
 		if exist "C:\Windows\System32\drivers\etc\rules.wfw" (
 			netsh advfirewall firewall del rule all
 			netsh advfirewall import "C:\Windows\System32\drivers\etc\rules.wfw"
+			del /f "C:\Windows\System32\drivers\etc\rules.wfw"
 		) else (
 			netsh advfirewall firewall del rule name="AllowDNS"
 			netsh advfirewall firewall del rule name="AllowPeshoorg"
