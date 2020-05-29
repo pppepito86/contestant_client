@@ -1,5 +1,6 @@
 # ПРЕДИ СЪСТЕЗАНИЕТО
-Пуснете конзала с администраторски права. Натиснете `start` бутона и в търсачката напишете `cmd`. Отидете на `command prompt` дайте десен бутон `run as administrator`, както е показано на картинката.
+Пуснете конзала с администраторски права. Натиснете `start` бутона и в търсачката напишете `cmd`. Отидете на `Command Prompt` дайте десен бутон `run as administrator`, както е показано на картинката.
+
 ![Cmd1](https://github.com/pppepito86/contestant_client/raw/master/scripts/cmd1.png)
 Когато се покаже долния прозорец и ви попита дали сте съгласни да правите промени по системата изберете `yes`.
 ![Cmd2](https://github.com/pppepito86/contestant_client/raw/master/scripts/cmd2.png)
