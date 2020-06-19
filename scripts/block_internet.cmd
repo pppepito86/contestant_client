@@ -6,7 +6,7 @@ if "%1"=="block" (
 	netsh advfirewall firewall set rule all new enable=no
 	netsh advfirewall set allprofiles firewallpolicy blockinbound,blockoutbound
 	netsh advfirewall firewall add rule name="AllowDNS" program="%SystemRoot%\system32\svchost.exe" dir=out action=allow protocol=UDP remoteport=53
-	netsh advfirewall firewall add rule name="AllowPeshoorg" dir=out action=allow remoteip=85.130.26.176	
+	netsh advfirewall firewall add rule name="AllowPeshoorg" dir=out action=allow remoteip=3.125.47.154
 ) else (
 	if "%1"=="unblock" (
 		echo unblocking
