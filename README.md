@@ -1,3 +1,5 @@
+# ENGLISH VERSION - [open](https://github.com/pppepito86/contestant_client/blob/master/README.en.md)
+
 # ПРЕДИ СЪСТЕЗАНИЕТО
 Пуснете конзала с администраторски права. Натиснете `start` бутона и в търсачката напишете `cmd`. Отидете на `Command Prompt` дайте десен бутон `Run as administrator`, както е показано на картинката.
 
