@@ -15,7 +15,7 @@ In order to prepare the system for the olympiad execute the following command:
 ```
 block_internet.cmd block
 ```
-After the execution of the commmand the system should be prepared. You can check that there is no internet access, for example [google](https://google.com) should not be accessible. There should be only access to the competition system. You can open the competition system [here](http://3.64.93.33/) and login with one of the following credentials - T001/T001, T002/T002, ..., T010/T010.
+After the execution of the commmand the system should be prepared. You can check that there is no internet access, for example [google](https://google.com) should not be accessible. There should be only access to the competition system. You can open the competition system [here](https://noibg.com) and login with one of the following credentials - T001/T001, T002/T002, ..., T010/T010.
 
 # AFTER THE COMPETITION
 In order to restore the original state of your system open the command prompt and execute the following command: 
