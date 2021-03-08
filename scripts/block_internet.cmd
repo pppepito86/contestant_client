@@ -12,7 +12,8 @@ if "%1"=="block" (
 		netsh advfirewall firewall add rule name="AllowDNS" program="%SystemRoot%\system32\svchost.exe" dir=out action=allow protocol=UDP remoteport=53
 		netsh advfirewall firewall add rule name="AllowIP1" dir=out action=allow remoteip=3.64.93.33
 		netsh advfirewall firewall add rule name="AllowIP2" dir=out action=allow remoteip=3.121.57.200
-		netsh advfirewall firewall add rule name="AllowIP3" dir=out action=allow remoteip=3.64.111.138
+		netsh advfirewall firewall add rule name="AllowIP3" dir=out action=allow remoteip=3.64.156.83
+		netsh advfirewall firewall add rule name="AllowIP4" dir=out action=allow remoteip=95.43.237.143
 	)
 ) else (
 	if "%1"=="unblock" (
@@ -27,6 +28,7 @@ if "%1"=="block" (
 			netsh advfirewall firewall del rule name="AllowIP1"
 			netsh advfirewall firewall del rule name="AllowIP2"
 			netsh advfirewall firewall del rule name="AllowIP3"
+			netsh advfirewall firewall del rule name="AllowIP4"
 			netsh advfirewall firewall set rule all new enable=yes
 		)
 	) else (
