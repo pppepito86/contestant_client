@@ -13,7 +13,7 @@ if "%1"=="block" (
 		netsh advfirewall firewall add rule name="AllowIP1" dir=out action=allow remoteip=3.64.93.33
 		netsh advfirewall firewall add rule name="AllowIP2" dir=out action=allow remoteip=3.121.57.200
 		netsh advfirewall firewall add rule name="AllowIP3" dir=out action=allow remoteip=3.64.156.83
-		netsh advfirewall firewall add rule name="AllowIP4" dir=out action=allow remoteip=95.43.237.143
+		netsh advfirewall firewall add rule name="AllowIP4" dir=out action=allow remoteip=3.69.12.158
 	)
 ) else (
 	if "%1"=="unblock" (
